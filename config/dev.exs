@@ -27,7 +27,17 @@ config :phx_inertia_svelte_ts_tw, PhxInertiaSvelteTsTwWeb.Endpoint,
   watchers: [
     esbuild:
       {Esbuild, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]}
+    tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]},
+    npx: [
+      "vite",
+      "build",
+      "--mode",
+      "development",
+      "--watch",
+      "--config",
+      "vite.config.js",
+      cd: Path.expand("../frontend", __DIR__)
+    ]
   ]
 
 # ## SSL Support
