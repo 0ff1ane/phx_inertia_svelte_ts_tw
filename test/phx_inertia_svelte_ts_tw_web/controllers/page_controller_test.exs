@@ -6,13 +6,15 @@ defmodule PhxInertiaSvelteTsTwWeb.PageControllerTest do
   describe "GET /" do
     test "renders the home page", %{conn: conn} do
       conn = get(conn, "/")
-      assert inertia_component(conn) == "Home"
+      assert inertia_component(conn) == "Login"
 
       page_props = inertia_props(conn)
 
       assert %{
-               # from home() controller props
-               title: "Welcome to the home page"
+               # from shared props
+               me: %{email: "some.email@gg.wp", name: "Ook Oook"},
+               # from login() controller props
+               title: "Welcome to the login page"
              } = page_props
     end
   end

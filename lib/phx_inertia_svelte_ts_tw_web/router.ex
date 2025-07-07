@@ -9,6 +9,7 @@ defmodule PhxInertiaSvelteTsTwWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug Inertia.Plug
+    plug PhxInertiaSvelteTsTwWeb.DummyUserAuthPlug
   end
 
   pipeline :api do
