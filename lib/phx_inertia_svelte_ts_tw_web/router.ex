@@ -18,7 +18,9 @@ defmodule PhxInertiaSvelteTsTwWeb.Router do
   scope "/", PhxInertiaSvelteTsTwWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", PageController, :login
+    get "/counter", PageController, :counter
+    get "/todos", PageController, :todos
   end
 
   # Other scopes may use custom stacks.
