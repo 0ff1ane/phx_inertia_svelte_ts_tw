@@ -144,12 +144,12 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     plug :put_root_layout, html: {PhxInertiaSvelteTsTwWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    + plug Inertia.Plug
+  + plug Inertia.Plug
   end
   ```
   * We will bypass existing phoenix layouts and create our minimal root.html.heex file and will handle layouts with InertiaJS persistent layouts(in the later steps)
   * Now in root.html.heex, make the following changes
-      ```
+      ```diff
       - <.live_title default="PhxInertiaSvelteTsTw" suffix=" · Phoenix Framework">
       -   {assigns[:page_title]}
       - </.live_title>
@@ -181,18 +181,18 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     watchers: [
     esbuild:
       {Esbuild, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--sourcemap=inline --watch)]},
-      -tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]}
-      +tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]},
-      +npx: [
-      +  "vite",
-      +  "build",
-      +  "--mode",
-      +  "development",
-      +  "--watch",
-      +  "--config",
-      +  "vite.config.js",
-      +  cd: Path.expand("../frontend", __DIR__)
-      +]
+    - tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]}
+    + tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]},
+    + npx: [
+    +   "vite",
+    +   "build",
+    +   "--mode",
+    +   "development",
+    +   "--watch",
+    +   "--config",
+    +   "vite.config.js",
+    +   cd: Path.expand("../frontend", __DIR__)
+    + ]
     ]
     ```
   * Replace the `"assets.setup", "assets.build", "assets.deploy"` tasks in your mix.exs with
@@ -212,7 +212,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     "assets.deploy": [
       "tailwind phx_inertia_svelte_ts_tw --minify",
       "esbuild phx_inertia_svelte_ts_tw --minify",
-    +  "cmd --cd frontend npx vite build --mode production --config vite.config.js",
+    + "cmd --cd frontend npx vite build --mode production --config vite.config.js",
       "phx.digest"
     ]
     ```
@@ -362,33 +362,33 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
   * Note the usage of the InertiaJS `<Link>` component. For more details visit https://inertiajs.com/links
   * Replace your main.ts file with
     ```diff
-    import { createInertiaApp, type ResolvedComponent } from "@inertiajs/svelte";
-    import { mount } from "svelte";
-    import "./app.css";
-    +import Layout from "./layouts/Layout.svelte";
+      import { createInertiaApp, type   ResolvedComponent } from "@inertiajs/svelte"  ;
+      import { mount } from "svelte";
+      import "./app.css";
+    + import Layout from "./layouts/Layout.svelte";
 
-    +// In case you want some pages without layout: "Login","Register" etc
-    +const NO_LAYOUT_ROUTES = ["Login"];
+    + // In case you want some pages without   layout: "Login","Register" etc
+    + const NO_LAYOUT_ROUTES = ["Login"];
 
-    createInertiaApp({
-      resolve: (name) => {
-        const pages: Record<string, ResolvedComponent> = import.meta.glob(
-          "./pages/**/*.svelte",
-          { eager: true }
-        );
-        let page = pages[`./pages/${name}.svelte`];
-        +let layout = (NO_LAYOUT_ROUTES.includes(name))
-          ? undefined : Layout as unknown as ResolvedComponent["layout"];
-        -return { default: page.default, layout: undefined }
-        +return { default: page.default, layout }
+      createInertiaApp({
+        resolve: (name) => {
+          const pages: Record<string,   ResolvedComponent> = import.meta.glob(
+            "./pages/**/*.svelte",
+            { eager: true }
+          );
+          let page = pages[`./pages/${name}.svelte  `];
+        + let layout = (NO_LAYOUT_ROUTES.includes  (name))
+            ? undefined : Layout as unknown as   ResolvedComponent["layout"];
+        - return { default: page.default,   layout: undefined }
+        + return { default: page.default, layout   }
 
-      },
-      setup({ el, App, props }) {
-        if (el) {
-          mount(App, { target: el, props });
-        }
-      },
-    });
+        },
+        setup({ el, App, props }) {
+          if (el) {
+            mount(App, { target: el, props });
+          }
+        },
+      });
     ```
   * Now lets add some simple Login, Counter and Todos pages. The content is a bit bigger than what
     I would like to paste here, so each step below has the link to the page commited
@@ -468,9 +468,9 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     ```
   * Add this plug to the end of the `:browser` pipeline in our `router.ex`
     ```diff
-    plug :put_secure_browser_headers
-    plug Inertia.Plug
-    +plug PhxInertiaSvelteTsTwWeb.DummyUserAuthPlug
+      plug :put_secure_browser_headers
+      plug Inertia.Plug
+    + plug PhxInertiaSvelteTsTwWeb.DummyUserAuthPlug
     ```
   * Replace your page_controller_test.exs with
     ```
@@ -518,14 +518,14 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
   * Make sure you are in `frontend/` directory
   * Run `npm install --save-dev @testing-library/svelte @testing-library/jest-dom jsdom vitest`
   * Add the following fields to the vite.config.ts file
-    ```
-    +test: {
-    +  globals: true,
-    +  environment: 'jsdom',
-    +},
-    +resolve: {
-    +  conditions: mode === 'test' ? ['browser'] : [],
-    +},
+    ```diff
+    + test: {
+    +   globals: true,
+    +   environment: 'jsdom',
+    + },
+    + resolve: {
+    +   conditions: mode === 'test' ? ['browser'] : [],
+    + },
     ```
   * Lets remove some of the tests that came with the vite/vitest setup
   * Create a directory for tests. Run `mkdir -p tests/pages`
@@ -584,11 +584,11 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     });
     ```
   * Add the testing npm tasks to `package.json` file
-    ```
-    -"check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
-    +"check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    +"test:unit": "vitest",
-    +"test": "npm run test:unit -- --run"
+    ```diff
+    - "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+    + "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    + "test:unit": "vitest",
+    + "test": "npm run test:unit -- --run"
     ```
   * Run `npm run test`
   * All your tests should pass!
