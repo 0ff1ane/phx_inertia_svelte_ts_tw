@@ -13,6 +13,7 @@ Includes TailwindCSS.
 * I don't know ᶜ𝓈ˢ so I use Tailwind. Phoenix out of the box uses TailwindCSS 3. This setup uses TailwindCSS 4.
 * Having a Monorepo for backend and frontend makes testing and typegen easier.
 * Vite is easier to setup compared to ESBuild.
+* I had issues setting up Vite 7 with TailwindCSS 4 at the time of writing this. So figured this could help someone out. [Link to TailwindCSS github issue](https://github.com/tailwindlabs/tailwindcss/issues/18393)
 
 
 ## If you just want to get started without checking out the setup tutorial:
