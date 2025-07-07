@@ -24,6 +24,13 @@ export default defineConfig(({ mode }) => {
         // include: []
       },
     },
+    test: {
+      globals: true,
+      environment: 'jsdom',
+    },
+    resolve: {
+      conditions: mode === 'test' ? ['browser'] : [],
+    },
     define: {
       __APP_ENV__: env.APP_ENV,
     },
