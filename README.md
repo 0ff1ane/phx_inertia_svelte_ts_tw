@@ -144,7 +144,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     plug :put_root_layout, html: {PhxInertiaSvelteTsTwWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    + plug Inertia.Plug
+  + plug Inertia.Plug
   end
   ```
   * We will bypass existing phoenix layouts and create our minimal root.html.heex file and will handle layouts with InertiaJS persistent layouts(in the later steps)
@@ -160,10 +160,10 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
       + <link phx-track-static rel="stylesheet" href={~p"/assets/main.css"} />
       + <script defer phx-track-static type="text/javascript" src={~p"/assets/main.js"}>
       ```
-    * Now replace the contents of `app.html.heex` with the following line
-      ```
-      {@inner_content}
-      ```
+  * Now replace the contents of `app.html.heex` with the following line
+    ```
+    {@inner_content}
+    ```
   * Replace lib/my_phx_svelte_app_web/controllers/page_controller.ex with
     ```
     defmodule PhxInertiaSvelteTsTwWeb.PageController do
@@ -177,22 +177,22 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     end
     ```
   * In `dev.exs` we want to add our Vite watcher. So replace the watchers field with
-    ```
+    ```diff
     watchers: [
     esbuild:
       {Esbuild, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--sourcemap=inline --watch)]},
-      - tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]}
-      + tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]},
-      + npx: [
-      +   "vite",
-      +   "build",
-      +   "--mode",
-      +   "development",
-      +   "--watch",
-      +   "--config",
-      +   "vite.config.js",
-      +   cd: Path.expand("../frontend", __DIR__)
-      + ]
+    - tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]}
+    + tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]},
+    + npx: [
+    +   "vite",
+    +   "build",
+    +   "--mode",
+    +   "development",
+    +   "--watch",
+    +   "--config",
+    +   "vite.config.js",
+    +   cd: Path.expand("../frontend", __DIR__)
+    + ]
     ]
     ```
   * Replace the `"assets.setup", "assets.build", "assets.deploy"` tasks in your mix.exs with
@@ -365,10 +365,10 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
       import { createInertiaApp, type   ResolvedComponent } from "@inertiajs/svelte"  ;
       import { mount } from "svelte";
       import "./app.css";
-      + import Layout from "./layouts/Layout.svelte";
+    + import Layout from "./layouts/Layout.svelte";
 
-      + // In case you want some pages without   layout: "Login","Register" etc
-      + const NO_LAYOUT_ROUTES = ["Login"];
+    + // In case you want some pages without   layout: "Login","Register" etc
+    + const NO_LAYOUT_ROUTES = ["Login"];
 
       createInertiaApp({
         resolve: (name) => {
@@ -377,10 +377,10 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
             { eager: true }
           );
           let page = pages[`./pages/${name}.svelte  `];
-          + let layout = (NO_LAYOUT_ROUTES.includes  (name))
+    +     let layout = (NO_LAYOUT_ROUTES.includes  (name))
               ? undefined : Layout as unknown as   ResolvedComponent["layout"];
-          - return { default: page.default,   layout: undefined }
-          + return { default: page.default, layout   }
+    -        return { default: page.default,   layout: undefined }
+    +     return { default: page.default, layout   }
 
         },
         setup({ el, App, props }) {
@@ -470,7 +470,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     ```diff
       plug :put_secure_browser_headers
       plug Inertia.Plug
-      + plug PhxInertiaSvelteTsTwWeb.DummyUserAuthPlug
+    + plug PhxInertiaSvelteTsTwWeb.DummyUserAuthPlug
     ```
   * Replace your page_controller_test.exs with
     ```
@@ -617,11 +617,11 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
 
   * Frontend
     * [Tanstack Query](https://tanstack.com/query/v5/docs/framework/svelte/overview)
-    * [shadcdn-svelte](https://www.shadcn-svelte.com/)
-    * [ts-pattern](https://github.com/gvergnaud/ts-pattern)
+    * [shadcdn-svelte](https://www.shadcn-svelte.com/): Simple and minimalistic UI library
+    * [ts-pattern](https://github.com/gvergnaud/ts-pattern): For typescript pattern matching instead of switch
   * Backend
-    * [PaperTrail](https://hexdocs.pm/paper_trail/readme.html)
-    * [phoenix_live_dashboard](https://github.com/phoenixframework/phoenix_live_dashboard)
+    * [PaperTrail](https://hexdocs.pm/paper_trail/readme.html): Great library for tracking(audit-logging) changes in Ecto changesets
+    * [phoenix_live_dashboard](https://github.com/phoenixframework/phoenix_live_dashboard): Great library for viewing app metrics without having to setup a Prometheus/Grafana stack
 
 ## Official References
 
@@ -631,6 +631,6 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
   * inertia-phoenix website: https://github.com/inertiajs/inertia-phoenix
 
 ## Some useful blogs/tutorials/resources
-  * https://elixirforum.com/t/can-someone-please-explain-how-to-get-inertiajs-running-with-svelte5-and-phoenix-just-a-hello-world/68350/1
   * https://github.com/thisistonydang/phoenix-inertia-svelte
   * Simplify React and Phoenix using Inertia JS: A quick look: https://www.youtube.com/watch?v=uyfyFRvng3c
+  * https://elixirforum.com/t/can-someone-please-explain-how-to-get-inertiajs-running-with-svelte5-and-phoenix-just-a-hello-world/68350/1
