@@ -144,7 +144,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     plug :put_root_layout, html: {PhxInertiaSvelteTsTwWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-  + plug Inertia.Plug
+    + plug Inertia.Plug
   end
   ```
   * We will bypass existing phoenix layouts and create our minimal root.html.heex file and will handle layouts with InertiaJS persistent layouts(in the later steps)
@@ -181,18 +181,18 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     watchers: [
     esbuild:
       {Esbuild, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--sourcemap=inline --watch)]},
-    - tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]}
-    + tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]},
-    + npx: [
-    +   "vite",
-    +   "build",
-    +   "--mode",
-    +   "development",
-    +   "--watch",
-    +   "--config",
-    +   "vite.config.js",
-    +   cd: Path.expand("../frontend", __DIR__)
-    + ]
+      - tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]}
+      + tailwind: {Tailwind, :install_and_run, [:phx_inertia_svelte_ts_tw, ~w(--watch)]},
+      + npx: [
+      +   "vite",
+      +   "build",
+      +   "--mode",
+      +   "development",
+      +   "--watch",
+      +   "--config",
+      +   "vite.config.js",
+      +   cd: Path.expand("../frontend", __DIR__)
+      + ]
     ]
     ```
   * Replace the `"assets.setup", "assets.build", "assets.deploy"` tasks in your mix.exs with
@@ -365,10 +365,10 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
       import { createInertiaApp, type   ResolvedComponent } from "@inertiajs/svelte"  ;
       import { mount } from "svelte";
       import "./app.css";
-    + import Layout from "./layouts/Layout.svelte";
+      + import Layout from "./layouts/Layout.svelte";
 
-    + // In case you want some pages without   layout: "Login","Register" etc
-    + const NO_LAYOUT_ROUTES = ["Login"];
+      + // In case you want some pages without   layout: "Login","Register" etc
+      + const NO_LAYOUT_ROUTES = ["Login"];
 
       createInertiaApp({
         resolve: (name) => {
@@ -377,10 +377,10 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
             { eager: true }
           );
           let page = pages[`./pages/${name}.svelte  `];
-        + let layout = (NO_LAYOUT_ROUTES.includes  (name))
-            ? undefined : Layout as unknown as   ResolvedComponent["layout"];
-        - return { default: page.default,   layout: undefined }
-        + return { default: page.default, layout   }
+          + let layout = (NO_LAYOUT_ROUTES.includes  (name))
+              ? undefined : Layout as unknown as   ResolvedComponent["layout"];
+          - return { default: page.default,   layout: undefined }
+          + return { default: page.default, layout   }
 
         },
         setup({ el, App, props }) {
@@ -422,7 +422,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
       end
       ```
   * Change the routes in router.ex with
-    ```
+    ```diff
     - get "/", PageController, :home
     + get "/", PageController, :login
     + get "/counter", PageController, :counter
@@ -470,7 +470,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     ```diff
       plug :put_secure_browser_headers
       plug Inertia.Plug
-    + plug PhxInertiaSvelteTsTwWeb.DummyUserAuthPlug
+      + plug PhxInertiaSvelteTsTwWeb.DummyUserAuthPlug
     ```
   * Replace your page_controller_test.exs with
     ```
@@ -603,7 +603,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
   * At the end of this stage your changes should look something like this PR: [Adding jest tests](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/7)
 
 ## Cleanup(Optional)
-  * If We are not planning to using the ESBuild, TailwindCSS and HeroIcons that comes packaged with Phoenix, we can remove these dependencies and their config
+  * If we are not planning to using the ESBuild, TailwindCSS and HeroIcons that comes packaged with Phoenix, we can remove these dependencies and their config
     * Run `mix deps.unlock esbuild tailwind heroicons` in your phoenix root directory(where the mix.exs file is located)
     * Remove the `esbuild`, `tailwind`, `heroicons` deps from mix.exs
     * Remove the `config :esbuild, ...` block from config.exs
