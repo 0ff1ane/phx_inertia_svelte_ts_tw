@@ -1,4 +1,4 @@
-# Svinph
+# Elixir/Phoenix with Vite, InertiaJS, Svelte, Typescript, TailwindCSS4
 
 Sample Elixir/Phoenix project with a setup tutorial to serve Svelte app via InertiaJS.
 
@@ -475,8 +475,8 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     ```
   * Replace your page_controller_test.exs with
     ```
-    defmodule SvinphWeb.PageControllerTest do
-      use SvinphWeb.ConnCase, async: true
+    defmodule PhxInertiaSvelteTsTwWeb.PageControllerTest do
+      use PhxInertiaSvelteTsTwWeb.ConnCase, async: true
       import Inertia.Testing
 
       describe "GET /" do
