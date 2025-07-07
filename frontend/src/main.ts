@@ -1,9 +1,20 @@
-import { mount } from 'svelte'
-import './app.css'
-import App from './App.svelte'
+import { createInertiaApp, type ResolvedComponent } from "@inertiajs/svelte";
+import { mount } from "svelte";
+import "./app.css";
 
-const app = mount(App, {
-  target: document.getElementById('app')!,
-})
+createInertiaApp({
+  resolve: (name) => {
+    const pages: Record<string, ResolvedComponent> = import.meta.glob(
+      "./pages/**/*.svelte",
+      { eager: true }
+    );
+    let page = pages[`./pages/${name}.svelte`];
+    return { default: page.default, layout: undefined }
 
-export default app
+  },
+  setup({ el, App, props }) {
+    if (el) {
+      mount(App, { target: el, props });
+    }
+  },
+});
