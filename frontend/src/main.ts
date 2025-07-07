@@ -1,6 +1,10 @@
 import { createInertiaApp, type ResolvedComponent } from "@inertiajs/svelte";
 import { mount } from "svelte";
 import "./app.css";
+import Layout from "./layouts/Layout.svelte";
+
+// In case you want some pages without layout: "Login","Register" etc
+const NO_LAYOUT_ROUTES = ["Login"];
 
 createInertiaApp({
   resolve: (name) => {
@@ -9,7 +13,9 @@ createInertiaApp({
       { eager: true }
     );
     let page = pages[`./pages/${name}.svelte`];
-    return { default: page.default, layout: undefined }
+    let layout = (NO_LAYOUT_ROUTES.includes(name))
+      ? undefined : Layout as unknown as ResolvedComponent["layout"];
+    return { default: page.default, layout }
 
   },
   setup({ el, App, props }) {
