@@ -57,7 +57,8 @@ defmodule PhxInertiaSvelteTsTw.MixProject do
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:inertia, "~> 2.5.1"}
     ]
   end
 
@@ -73,11 +74,20 @@ defmodule PhxInertiaSvelteTsTw.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind phx_inertia_svelte_ts_tw", "esbuild phx_inertia_svelte_ts_tw"],
+      "assets.setup": [
+        "tailwind.install --if-missing",
+        "esbuild.install --if-missing",
+        "cmd --cd frontend npm install"
+      ],
+      "assets.build": [
+        "tailwind phx_inertia_svelte_ts_tw",
+        "esbuild phx_inertia_svelte_ts_tw",
+        "cmd --cd frontend npx vite build --config vite.config.js"
+      ],
       "assets.deploy": [
         "tailwind phx_inertia_svelte_ts_tw --minify",
         "esbuild phx_inertia_svelte_ts_tw --minify",
+        "cmd --cd frontend npx vite build --mode production --config vite.config.js",
         "phx.digest"
       ]
     ]
