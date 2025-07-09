@@ -54,7 +54,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
   * _OPTIONAL_: You should initialize and make a git commit here as a good practice with `git init && git add -A && git commit -m "Setup Elixir Phoenix"`
 
 ## 2. Setting up Svelte+Typescript with Vite
-  * PR Link: [Setup Vite Svelte PR](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/1)
+  * PR Link: [Setup Vite Svelte PR](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/1)
   * __NOTE__: As of writing this tutorial, there is an issue with `TailwindCSS 4` and `Vite 7`. So we will use `Vite 6`
   * This is tested with `nodejs 22.12.0` so make sure you have something close to that
   * __NOTE__: We will put all the frontend into a `frontend/` directory instead of `assets/` like how most Phoenix projects do it
@@ -64,13 +64,13 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
   * Run `npm i --save-dev @types/node` because typescript projects usually need some node type definitions
   * Run `npm run dev`. (Watch the port it listens on. Use that port in the next step if it is different from 5174)
   * Visit http://localhost:5174/ on your browser and make sure everything works. You should see a `Vite + Svelte` page with a basic counter.
-  * _OPTIONAL_: Make a git commit here `git add -A && git commit -m "Setup Vite Svelte"`
+  * _OPTIONAL_: 0ff1ane a git commit here `git add -A && git commit -m "Setup Vite Svelte"`
   * Great! You have a working Vite+Svelte project
-  * At the end of this stage your changes should look something like this PR: [Setup Vite Svelte PR](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/1)
+  * At the end of this stage your changes should look something like this PR: [Setup Vite Svelte PR](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/1)
   * Now lets add TailwindCSS 4 in the next step
 
 ## 3. Setting up TailwindCSS 4
-  * PR Link: [Setup TailwindCSS 4](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/2)
+  * PR Link: [Setup TailwindCSS 4](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/2)
   * In your `frontend/` directory, run `npm install tailwindcss @tailwindcss/vite`
   * Open `vite.config.ts` and
     * Add `import tailwindcss from "@tailwindcss/vite";`
@@ -100,11 +100,11 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
   * Make sure the vite server is running with `npm run dev` in `frontend/` directory
   * Visit http://localhost:5174/ on your browser and make sure tailwind classes work and the lines are appropriately colored
   * Tailwind setup done!
-  * At the end of this stage your changes should look something like this PR: [Setup TailwindCSS 4](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/2)
+  * At the end of this stage your changes should look something like this PR: [Setup TailwindCSS 4](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/2)
 
 
 ## 4. Adding inertia-phoenix to the backend
-  * PR Link: [Setup inertia-phoenix](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/3)
+  * PR Link: [Setup inertia-phoenix](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/3)
   * Go to the [inertia-phoenix project page](https://github.com/inertiajs/inertia-phoenix) and follow the instructions there.
   * The changes you make should be similar to the below
   * add `{:inertia, "~> 2.5.1"},` to your mix.exs deps
@@ -239,12 +239,12 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     end
     ```
   * Run `mix test` and our test should pass!
-  * At the end of this stage your changes should look something like this PR: [Setup inertia-phoenix](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/3)
+  * At the end of this stage your changes should look something like this PR: [Setup inertia-phoenix](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/3)
   * Next we will update our svelte app to use inertiajs
 
 
 ## 5. Adding InertiaJS to Svelte
-  * PR Link: [Setup @inertiajs/svelte](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/4)
+  * PR Link: [Setup @inertiajs/svelte](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/4)
   * Make sure you are in `frontend/` directory
   * Run `npm install @inertiajs/svelte`
   * Replace the `frontend/main.ts` file with
@@ -310,11 +310,11 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
   * Now make sure your vite server(npm run dev) is not running
   * Run `iex -S mix phx.server` in your phoenix root directory.
   * Visit http://localhost:4000 . Your phoenix app is now serving inertiajs pages!
-  * At the end of this stage your changes should look something like this PR: [Setup @inertiajs/svelte](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/4)
+  * At the end of this stage your changes should look something like this PR: [Setup @inertiajs/svelte](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/4)
 
 
 ## 6. Adding multiple pages with persistent and conditional layouts
-  * PR Link: [Setup persistent layouts](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/5)
+  * PR Link: [Setup persistent layouts](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/5)
   * Now lets add some more sample pages and wrap some of them in a layout.
   * We will add a Layout.svelte file and configure inertiaJS to use it as a persistent layout for some pages
   * Add a `Layout.svelte` in `frontend/src/layouts` with these contents
@@ -379,9 +379,9 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
           );
           let page = pages[`./pages/${name}.svelte  `];
     +     let layout = (NO_LAYOUT_ROUTES.includes  (name))
-              ? undefined : Layout as unknown as   ResolvedComponent["layout"];
-    -        return { default: page.default,   layout: undefined }
+    +        ? undefined : Layout as unknown as   ResolvedComponent["layout"];
     +     return { default: page.default, layout   }
+    -     return { default: page.default,   layout: undefined }
 
         },
         setup({ el, App, props }) {
@@ -393,9 +393,9 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     ```
   * Now lets add some simple Login, Counter and Todos pages. The content is a bit bigger than what
     I would like to paste here, so each step below has the link to the page commited
-    * Add `frontend/src/pages/Login.svelte` with the contents from [simple Login.svelte](https://github.com/rascala/phx_inertia_svelte_ts_tw/blob/fcabd1ea796568d4fdc90eea79707823eb50224e/frontend/src/pages/Login.svelte)
-    * Add `frontend/src/pages/Counter.svelte` with the contents from [simple Counter.svelte](https://github.com/rascala/phx_inertia_svelte_ts_tw/blob/fcabd1ea796568d4fdc90eea79707823eb50224e/frontend/src/pages/Counter.svelte)
-    * Add `frontend/src/pages/Todos.svelte` with the contents from [simple Todos.svelte](https://github.com/rascala/phx_inertia_svelte_ts_tw/blob/fcabd1ea796568d4fdc90eea79707823eb50224e/frontend/src/pages/Todos.svelte)
+    * Add `frontend/src/pages/Login.svelte` with the contents from [simple Login.svelte](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/blob/fcabd1ea796568d4fdc90eea79707823eb50224e/frontend/src/pages/Login.svelte)
+    * Add `frontend/src/pages/Counter.svelte` with the contents from [simple Counter.svelte](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/blob/fcabd1ea796568d4fdc90eea79707823eb50224e/frontend/src/pages/Counter.svelte)
+    * Add `frontend/src/pages/Todos.svelte` with the contents from [simple Todos.svelte](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/blob/fcabd1ea796568d4fdc90eea79707823eb50224e/frontend/src/pages/Todos.svelte)
   * Now lets add controller functions to serve these pages.
 
     Replace lib/my_phx_svelte_app_web/controllers/page_controller.ex with
@@ -432,10 +432,10 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
 
   * Run `iex -S mix phx.server`
   * Visit http://localhost:4000 and check that a navbar is visible only in the http://localhost:4000/counter and http://localhost:4000/todos page and the current link is underlined in the navbar
-  * At the end of this stage your changes should look something like this PR: [Setup persistent layouts](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/5)
+  * At the end of this stage your changes should look something like this PR: [Setup persistent layouts](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/5)
 
 ## 7. Adding shared props
-  * PR Link: [Adding shared props](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/6)
+  * PR Link: [Adding shared props](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/6)
   * In InertiaJS, we can use create a custom plug to insert shared props to all pages(for example current_user details or roles etc)
   * Run `mkdir lib/phx_inertia_svelte_ts_tw_web/plugs/` and create a file `lib/my_phx_svelte_app_web/plugs/dummy_user_auth.ex`
   * Add the following contents to the file
@@ -512,10 +512,10 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     ```
   * Now run the tests again.
   * All the tests should pass!
-  * At the end of this stage your changes should look something like this PR: [Adding shared props](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/6)
+  * At the end of this stage your changes should look something like this PR: [Adding shared props](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/6)
 
 ## 8. Adding Jest for some simple frontend tests
-  * PR Link: [Adding Jest tests](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/7)
+  * PR Link: [Adding Jest tests](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/7)
   * Make sure you are in `frontend/` directory
   * Run `npm install --save-dev @testing-library/svelte @testing-library/jest-dom jsdom vitest`
   * Add the following fields to the vite.config.ts file
@@ -601,7 +601,7 @@ __NOTE__: Every stage from the second onwards has a PR associated with it. The s
     Test Files  3 passed (3)
          Tests  3 passed (3)
     ```
-  * At the end of this stage your changes should look something like this PR: [Adding jest tests](https://github.com/rascala/phx_inertia_svelte_ts_tw/pull/7)
+  * At the end of this stage your changes should look something like this PR: [Adding jest tests](https://github.com/0ff1ane/phx_inertia_svelte_ts_tw/pull/7)
 
 ## Cleanup(Optional)
   * If we are not planning to using the ESBuild, TailwindCSS and HeroIcons that comes packaged with Phoenix, we can remove these dependencies and their config
